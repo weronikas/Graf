@@ -1,9 +1,11 @@
+from collections import defaultdict
+
 #creating Graph
 class Node:
-    def __init__(self, X, Y):
+    def __init__(self, ID, X, Y):
         self.X = X
         self.Y = Y
-        self.ID = 0
+        self.ID = ID
         self.estDist = None
         self.estTime = None
         self.edges = []
@@ -50,5 +52,5 @@ class Edge:
 class Graph:
     def __init__(self):
         self.edge = []
-        self.node = []
+        self.node = defaultdict(list)
 
