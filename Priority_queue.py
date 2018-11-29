@@ -1,25 +1,26 @@
+import math
+import random
+
 class Priority_queue:
 
 
     def __init__(self):
         self.pq = [None]
         self.dic = {}
-        self.p = {}
 
-    def insert (self, m, earlier):
-            if m[1] in self.dic:
-                if (m[0] < self.pq[self.dic[m[1]]][0]):
-                    self.pq[self.dic[m[1]]] = m
-                    self.p[m] = earlier
+    def insert (self, m):
+        if m[1] not in self.dic:
             self.pq.append(m)
             self.dic[m[1]] = len(self.pq) - 1
             self.swim(len(self.pq) - 1)
+        else:
+            print ("Juz jest element o podanym ID")
 
 
     def getmin (self):
 #        if not self.isempty:
         min = self.pq[1]
-        del self.dic[self.pq[1][1]]
+        self.dic.pop(self.pq[1][1])
         self.pq[1] = self.pq[-1]
         self.dic[self.pq[1][1]] = 1
         self.pq.pop()
@@ -29,7 +30,12 @@ class Priority_queue:
 #            raise Exception('Priority queue is empty')
 
     def decrease (self, m):
-        pass
+        if m[1] in self.dic:
+            if (m[0] < self.pq[self.dic[m[1]]][0]):
+                self.pq[self.dic[m[1]]] = m
+                self.swim(self.dic[m[1]])
+        else:
+            print ("Nie ma elementu o podanym ID")
 
 
     def isempty (self):
@@ -68,6 +74,53 @@ class Priority_queue:
             pq_str +=  ' ' + 'Key: ' + str(key) + ' Value: ' + str(value)
         return pq_str
 
+    def test_correct (self):
+        k = len(self.pq) - 1
+        while (k  >= 2):
+            if self.pq[k][0] < self.pq[int(math.floor(k / 2))][0]:
+                print "Blad kopca pq przy k = " + str(k)
+            #nie testuje k=1
+            if self.dic[self.pq[k][1]] != k:
+                print "Blad slownika przy k = " + str(k)
+            k -= 1
+
+
+
+def random_test(num):
+    Pqueue = Priority_queue()
+    for i in range(num):
+        if len(Pqueue.pq) == 1:
+            elem = (random.randint(1,100000), random.randint(1,10000))
+            Pqueue.insert(elem)
+            #print "Insert: " + str(elem)
+        else:
+            prob = random.randint(1,4)
+            if prob < 3:
+                id1 = random.randint(1, 10000)
+                while id1 in Pqueue.dic:
+                    id1 = random.randint(1, 10000)
+                elem = (random.randint(1, 100000), id1)
+                Pqueue.insert(elem)
+                #print "Insert: " + str(elem)
+            elif prob < 4:
+                Pqueue.getmin()
+                #print "Getmin"
+            else:
+                new_pq = Pqueue.pq[1:]
+                random.shuffle(new_pq)
+                ind = new_pq[0][1]
+                elem = (random.randint(1, 100000), ind)
+                Pqueue.decrease(elem)
+                #print "Decrease: " + str(elem)
+    print Pqueue
+    Pqueue.test_correct()
+
+
+
+
+
+
+
 
 """
 P = Priority_queue()
@@ -75,7 +128,7 @@ print 'Kolejka priorytetowa: ' + str(P)
 P.insert((4,0))
 print 'Kolejka priorytetowa: ' + str(P)
 P.insert((6,9))
-P.insert((3,0))
+P.decrease((3,0))
 P.insert((12,1))
 P.insert((7,3))
 print 'Kolejka priorytetowa: ' + str(P)
@@ -94,9 +147,12 @@ b = P.isempty()
 print str(b)
 P.insert((25,4))
 P.insert((3,41))
-P.insert((8,4))
+P.decrease((8,4))
 a = P.getmin()
 a = P.getmin()
 print 'Kolejka priorytetowa: ' + str(P)
 print 'a: ' + str(a)
+P.test_correct()
+
+random_test(2)
 """

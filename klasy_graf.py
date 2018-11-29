@@ -6,24 +6,16 @@ class Node:
         self.X = X
         self.Y = Y
         self.ID = ID
-        self.estDist = None
+        self.estDist = 'rrr'
         self.estTime = None
         self.edges = []
 
-    def __repr__(self):
-        return "Node(%s, %s, %s)" % (self.ID, self.X, self.Y)
-
-    def __eq__(self, other):
-        if isinstance(other, Node):
-            return ((self.X == other.X) and (self.Y == other.Y))
-        else:
-            return False
-
-    def __ne__(self, other):
-        return (not self.__eq__(other))
-
-    def __hash__(self):
-        return hash(self.__repr__())
+    def get_neighbours (self):
+        neighbours = []
+        for edge in self.edges:
+            item = (edge, edge.get_end(self))
+            neighbours.append(item)
+        return neighbours
 
 
     def getX (self):
@@ -35,10 +27,14 @@ class Node:
     def getID (self):
         return self.ID
 
-    def setID (self, id):
-        self.ID = id
+    def get_edges(self):
+        return self.edges
 
+    def get_est_dist(self):
+        return self.estDist
 
+    def set_est_dist (self, dist):
+        self.estDist = dist
 
 
 class Edge:
@@ -47,10 +43,41 @@ class Edge:
         self.n_from = node_from
         self.n_to = node_to
         self.length = length #metry
-        self.time = None #minuty
+        self.velocity = None
+        self.direction = None
+
+    def get_end (self, vertex):
+        if vertex.ID == self.n_from.ID:
+           return  self.n_to
+        if vertex.ID == self.n_to.ID:
+            return self.n_from
+        else:
+            print "Podany wierzcholek nie jest zadnym z koncow krawedzi"
+            print("Vertex: {0}, n_from: {1}, n_to: {2} \n".format(str(vertex.getID()), str(self.n_from.getID()), str(self.n_to.getID())))
+
+
+    def cost_length (self):
+        return self.length
+
+    def cost_time (self):
+        time = (self.length * 3600) / (self.velocity * 1000)
+        return time
+
+    def getID (self):
+        return self.ID
+
 
 class Graph:
     def __init__(self):
-        self.edge = []
-        self.node = defaultdict(list)
+        self.edge = {}
+        self.node = {}
+
+    def get_node (self, id):
+        return self.node[id]
+
+    def get_edge (self, id):
+        return self.edge[id]
+
+    def closest_node (self, x, y):
+        pass
 
