@@ -21,8 +21,9 @@ class Priority_queue:
 #        if not self.isempty:
         min = self.pq[1]
         self.dic.pop(self.pq[1][1])
-        self.pq[1] = self.pq[-1]
-        self.dic[self.pq[1][1]] = 1
+        if (len(self.pq) > 2):
+            self.pq[1] = self.pq[-1]
+            self.dic[self.pq[1][1]] = 1
         self.pq.pop()
         self.sink(1)
         return min
@@ -121,38 +122,38 @@ def random_test(num):
 
 
 
+if __name__ == "__main__":
+    """
+    P = Priority_queue()
+    print 'Kolejka priorytetowa: ' + str(P)
+    P.insert((4,0))
+    print 'Kolejka priorytetowa: ' + str(P)
+    P.insert((6,9))
+    P.decrease((3,0))
+    P.insert((12,1))
+    P.insert((7,3))
+    print 'Kolejka priorytetowa: ' + str(P)
+    a = P.getmin()
+    print 'Kolejka priorytetowa: ' + str(P)
+    print 'a: ' + str(a)
+    P.insert((1,43))
+    P.insert((5,51))
+    P.insert((13,44))
+    P.insert((7,43))
+    print 'Kolejka priorytetowa: ' + str(P)
+    a = P.getmin()
+    print 'Kolejka priorytetowa: ' + str(P)
+    print 'a: ' + str(a)
+    b = P.isempty()
+    print str(b)
+    P.insert((25,4))
+    P.insert((3,41))
+    P.decrease((8,4))
+    a = P.getmin()
+    a = P.getmin()
+    print 'Kolejka priorytetowa: ' + str(P)
+    print 'a: ' + str(a)
+    P.test_correct()
+    """
 
-"""
-P = Priority_queue()
-print 'Kolejka priorytetowa: ' + str(P)
-P.insert((4,0))
-print 'Kolejka priorytetowa: ' + str(P)
-P.insert((6,9))
-P.decrease((3,0))
-P.insert((12,1))
-P.insert((7,3))
-print 'Kolejka priorytetowa: ' + str(P)
-a = P.getmin()
-print 'Kolejka priorytetowa: ' + str(P)
-print 'a: ' + str(a)
-P.insert((1,43))
-P.insert((5,51))
-P.insert((13,44))
-P.insert((7,43))
-print 'Kolejka priorytetowa: ' + str(P)
-a = P.getmin()
-print 'Kolejka priorytetowa: ' + str(P)
-print 'a: ' + str(a)
-b = P.isempty()
-print str(b)
-P.insert((25,4))
-P.insert((3,41))
-P.decrease((8,4))
-a = P.getmin()
-a = P.getmin()
-print 'Kolejka priorytetowa: ' + str(P)
-print 'a: ' + str(a)
-P.test_correct()
-
-random_test(2)
-"""
+    random_test(10)

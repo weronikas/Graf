@@ -6,7 +6,7 @@ class Node:
         self.X = X
         self.Y = Y
         self.ID = ID
-        self.estDist = 'rrr'
+        self.estDist = None
         self.estTime = None
         self.edges = []
 
@@ -38,13 +38,14 @@ class Node:
 
 
 class Edge:
-    def __init__(self, ID, node_from, node_to, length):
+    vel_tab = {'Mb':50, 'T':40, 'Bt':40, 'U':40, 'Kp':30, 'Br':20, 'Kk':20, 'Pb':30, 'Zw':20, 'Gz':20, 'Kl':20,'Tl':20, 'G':20, 'Gr':10}
+    def __init__(self, ID, node_from, node_to, length, velocity, dir):
         self.ID = ID
         self.n_from = node_from
         self.n_to = node_to
         self.length = length #metry
-        self.velocity = None
-        self.direction = None
+        self.velocity = velocity
+        self.direction = dir
 
     def get_end (self, vertex):
         if vertex.ID == self.n_from.ID:
@@ -60,11 +61,14 @@ class Edge:
         return self.length
 
     def cost_time (self):
-        time = (self.length * 3600) / (self.velocity * 1000)
+        time = (self.length * 60) / (self.velocity * 1000)
         return time
 
     def getID (self):
         return self.ID
+
+    def get_dir (self):
+        return self.direction
 
 
 class Graph:
